@@ -1,14 +1,20 @@
-'use strict'
-
 /**
  * Import all modules
  */
-const express = require('express');
-const config = require('./config');
+import express from 'express';
+import http from 'http';
+import { Server, Socket } from 'socket.io';
+
 const app = express();
+const io = new Server(new http.Server(app), {});
 
 // Load config middleware
-config(app);
+// config(app);
+
+// Define Socket.IO
+io.on('connection', (socket) => {
+  console.log('User connected!');
+});
 
 // Define server port
 const PORT = 3000;
