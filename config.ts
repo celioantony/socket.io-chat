@@ -5,7 +5,7 @@ const cors = require('cors');
 const path = require('path');
 import { Express } from 'express';
 
-export default class ApplicationConfig {
+export default class Config {
 
   public app: any = null;
 
