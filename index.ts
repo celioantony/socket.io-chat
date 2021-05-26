@@ -2,27 +2,25 @@
  * Import all modules
  */
 import express from 'express';
-import http from 'http';
+import { createServer } from 'http';
 import { Server } from 'socket.io';
-import ApplicationConfig from './ApplicationConfig';
-
-const app = express();
-const io = new Server(new http.Server(app), {});
+import Config from './config';
 
 export default class Application {
+
+  app: any = express();
+  server: any = createServer(this.app);
+  io: any = new Server(this.server, {});
+  clients: Array<any> = [];
+
   constructor() {
     // Load config middleware
-    let config = new ApplicationConfig(app);
+    let config = new Config(this.app);
     config.init();
-
-    // Define Socket.IO
-    io.on('connection', (socket) => {
-      console.log('User connected!');
-    });
 
     // Define server port
     const PORT = 3000;
-    app.listen(PORT, () => {
+    this.server.listen(PORT, () => {
       console.log('=======================');
       console.log('... Server started ...');
       console.log(`Running in port: ${PORT}`);
