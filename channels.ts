@@ -1,4 +1,4 @@
-export default class Socket {
+export default class Channels {
 
   clients: Array<any> [];
   io: any;
@@ -17,7 +17,6 @@ export default class Socket {
       socket.on('join', (user: any) => {
         socket.username = user.username;
         this.clients.push(socket); // add client
-        socket.emit('login', { size: this.clients.length }); // count users in socket
         socket.broadcast.emit('joined', {  // inform that user joined in chat
           username: socket.username, 
           size: this.clients.length 
