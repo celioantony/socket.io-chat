@@ -1,11 +1,10 @@
 export default class Channels {
 
-  clients: Array<any> [];
   io: any;
 
   constructor(io: any) {
     this.io = io;
-    this.clients = [];
+    global.clients = [];
   }
 
   init() {
@@ -16,12 +15,11 @@ export default class Channels {
       // Enter chat
       socket.on('join', (user: any) => {
         socket.username = user.username;
-        this.clients.push(socket); // add client
+        global.clients.push(socket); // add client
         socket.broadcast.emit('joined', {  // inform that user joined in chat
-          username: socket.username, 
-          size: this.clients.length 
+          username: socket.username,
+          size: global.clients.length
         });
-
       });
 
       // Send message
@@ -43,14 +41,14 @@ export default class Channels {
       // Disconnect
       socket.on('disconnect', () => {
         let id = socket.id;
-        let index = this.clients.findIndex((cli: any) => cli.id == id);
+        let index = global.clients.findIndex((cli: any) => cli.id == id);
         if (index > -1)
-          this.clients.splice(index, 1);
+        global.clients.splice(index, 1);
 
-        socket.broadcast.emit('disconnect', {
-          username: socket.username,
-          size: this.clients.length
-        });
+        // socket.broadcast.emit('disconnect', {
+        //   username: socket.username,
+        //   size: this.clients.length
+        // });
       });
 
     });

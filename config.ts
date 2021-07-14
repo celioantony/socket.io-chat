@@ -3,7 +3,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-import { Express } from 'express';
+import { Express, Router } from 'express';
 
 export default class Config {
 
